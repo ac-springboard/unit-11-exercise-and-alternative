@@ -1,12 +1,19 @@
 'use strict';
 
-import {randomColor} from 'connect-them/src/utils.js';
+import {randomColor} from '../utils.js';
 
 export class Player {
-  constructor( number ){
-    this.player = {
-      number,
-      color: randomColor()
-    }
+  constructor(number) {
+    this.cor = randomColor();
+    this.nome  = 'Player #' + number;
+  }
+
+  color() {
+    return this.cor;
+  }
+
+  name(){
+    return this.nome;
   }
 }
+
