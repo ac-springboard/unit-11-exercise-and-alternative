@@ -1,9 +1,9 @@
 'use strict';
 
-const wl = 3;
-const nl = 3;
-const nc = 3;
-const mp = new Map();
+const wl           = 4;
+const nl = 5;
+const nc = 6;
+const mp           = new Map();
 
 const ctnr = document.getElementById('container');
 
@@ -65,7 +65,8 @@ while ( cond1( r, k) ){
     val.pd = pd;
     mp.set( key, val );
     pd++;l++;c++;
-    // console.log(pd++, l++, c++, val );
+    // console.log(pd, l, c, val );
+    console.log(key)
   }
   k++;
   pd++;
@@ -84,6 +85,7 @@ while ( cond1( r, k) ){
     l++;
     c++;
     // console.log(pd++, l++, c++, val );
+    console.log( key );
   }
   r++;
   pd++;
@@ -182,7 +184,7 @@ let running = true;
 //   play(ctr);
 // }
 
-let interv = setInterval( play(ct), 1000 );
+// let interv = setInterval( play(ct), 1000 );
 
 
 function play(ct) {
