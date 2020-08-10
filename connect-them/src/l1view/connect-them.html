@@ -3,51 +3,21 @@
 <head >
   <meta charset="UTF-8" >
   <title >ConnecThem!</title >
-  <style type="text/css">
-    .rowDiv{
-      width: 100%;
-      background-color: black;
-    }
-    .cellDiv{
-      border: 1px solid black;
-      height: 50px;
-      width: 50px;
-      display: inline-block;
-      border-radius:25px;
-      text-align: center;
-      line-height: 50px;
-    }
-
-    .rPlayer{
-      background-color: red;
-    }
-
-    .bPlayer{
-      background-color: blue;
-    }
-
-    @keyframes pulse {
-      from { transform: scale(1); }
-      50% { transform: scale(0.5); }
-      to { transform: scale(1); }
-    }
-
-    .winner{
-      animation-name: pulse;
-      animation-duration: 1.5s;
-      animation-iteration-count: infinite;
-      border: none;
-      opacity: 1.0;
-
-    }
-  </style>
-  <script src="../l3model/init.js" type="module" ></script >
-  <script src="welcome.js" type="module"></script >
+  <script src="../l3model/init.js"
+          type="module" ></script >
+  <script src="welcome.js"
+          type="module" ></script >
+  <link rel="stylesheet"
+        href="connect-them.css" >
 </head >
 <body >
-<div id="container">
-
-</div>
+<div id="main" >
+  <div id="player" class="glow"></div>
+  <div id="container" >
+    <div id="chips" ></div >
+    <div id="board"></div >
+  </div >
+</div >
 <!--<script src="scratch.js" ></script >-->
 </body >
 </html >

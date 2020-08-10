@@ -1,0 +1,125 @@
+html, body {
+  background: linear-gradient(to bottom, rgba(3,75, 82, 1) 0%, rgba(3,75, 82, 0) 100%);
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+#main {
+  width      : 100%;
+  height     : 100%;
+  text-align : center;
+}
+
+#container {
+  /*width: 350px;*/
+  /*margin           : 50%;*/
+  text-align          : center;
+  padding             : 20px;
+  /*overflow: auto;*/
+  /*clear: both;*/
+  display             : inline-grid;
+  background-color    : black;
+  /*border              : 5px solid yellow;*/
+  box-shadow: inset 0 0 50px 20px yellow,
+              0 10px 10px 10px #f5bbf5;
+  -webkit-perspective : 500px;
+  -webkit-transform   : perspective(500px) rotateX(35deg);
+  -moz-transform      : perspective(500px) rotateX(35deg);
+  transform           : perspective(500px) rotateX(35deg);
+}
+
+#player {
+  /*min-width: 200px;*/
+  width             : fit-content;
+  min-height        : 100px;
+  /*max-width: 200px;*/
+  max-height        : 100px;
+  /*border            : 1px solid black;*/
+  margin            : 0 auto;
+  position          : sticky;
+  top               : 0;
+  font-size         : 64px;
+  line-height       : 100px;
+  padding           : 8px;
+  -webkit-text-stroke: 5px transparent;
+}
+
+
+.glow {
+  color: #fff;
+  text-align: center;
+  -webkit-animation: glow 1.5s ease-in-out infinite alternate;
+  -moz-animation: glow 1.5s ease-in-out infinite alternate;
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes glow {
+  from {
+    text-shadow : 0 0 10px #ffffff, 0 0 15px #ffffff, 0 0 20px #e60073, 0 0 25px #e60073, 0 0 30px #e60073, 0 0 35px #e60073, 0 0 40px #e60073;
+  }
+  to {
+    text-shadow : 0 0 20px #ffffff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+  }
+}
+.rowDiv {
+  width            : 100%;
+  display          : inline-block;
+  background-color : black;
+}
+
+.chipCell {
+  border      : 3px solid magenta;
+  height      : 50px;
+  width       : 50px;
+  display     : inline-block;
+  /*border-radius : 25px;*/
+  text-align  : center;
+  line-height : 50px;
+  margin      : 1px;
+}
+
+.cellDiv, .chipDiv {
+  border        : 2px solid yellow;
+  height        : 50px;
+  width         : 50px;
+  display       : inline-block;
+  border-radius : 25px;
+  text-align    : center;
+  line-height   : 50px;
+  margin        : 1px;
+}
+
+.cellDiv {
+  color      : white;
+  background : radial-gradient(black, yellow);
+}
+
+.rPlayer {
+  background-color : red;
+}
+
+.bPlayer {
+  background-color : blue;
+}
+
+@keyframes pulse {
+  from {
+    transform : scale(1);
+  }
+  50% {
+    transform : scale(0.5);
+  }
+  to {
+    transform : scale(1);
+  }
+}
+
+.winner {
+  animation-name            : pulse;
+  animation-duration        : 1.5s;
+  animation-iteration-count : infinite;
+  border                    : none;
+  opacity                   : 1.0;
+
+}

@@ -1,26 +1,45 @@
 'use strict';
 
+import {Play}        from '../l3model/play.js';
 import {validRowCol} from '../utils.js';
 
-export class Elems {
-  constructor(numberOfRows, numberOfCols) {
-    this.params    = {
-      numberOfRows,
-      numberOfCols,
-    };
-    this.cellMap   = new Map();
+export class Mapper {
+  constructor(params) {
+    this.params     = params;
+    this.cellMap    = new Map();
     //
-    this.container = document.getElementById('container');
+    this.chipsElem  = document.getElementById('chips');
+    this.boardElem  = document.getElementById('board');
+    this.playerElem = document.getElementById('player');
     this.init();
   }
 
   init() {
+    this.mapChipCells();
     this.mapRowsCols();
     this.mapDiagonals();
-    console.log('MAP', this.cellMap);
+    this.play = new Play(this.params.numberOfPlayers);
+    this.setPlayer();
+
+    // this.mapPlayers();
+    // console.log('MAP', this.cellMap);
+  }
+
+  setPlayer() {
+    console.log('activePlayer:', this.play.getActivePlayer());
+    const activePlayer                    = this.play.getActivePlayer();
+    this.playerElem.style.color = activePlayer.color();
+    this.playerElem.innerText             = activePlayer.name();
+  }
+
+  mapChipCells() {
+    for (let i = 0; i < this.params.numberOfCols; i++) {
+      this.add().chipCell(i);
+    }
   }
 
   mapRowsCols() {
+    // console.log( 'mapRowsCols()');
     const {numberOfRows, numberOfCols} = ({...this.params});
     let ec                             = 0;
     let val, cellId, positionInRowCol;
@@ -34,14 +53,17 @@ export class Elems {
           col: (numberOfRows + 1) * col + row,
         };
         val              = this.cellMap.get(cellId);
-        console.log( 'val:', val );
+        // console.log('val:', val);
         if (val) {
           val.positionInRowCol = positionInRowCol;
         } else {
-          val = { positionInRowCol: positionInRowCol, positionInDiagonal: {} };
-          this.cellMap.set(cellId, val );
+          val = {
+            positionInRowCol  : positionInRowCol,
+            positionInDiagonal: {},
+          };
+          this.cellMap.set(cellId, val);
         }
-        console.log(cellId, val);
+        // console.log(cellId, val);
         // this.cellMap.set( row+':'+col, { pl: (nc+1)*l+c, pc: (nl+1)*c+l });
       }
       ec++;
@@ -49,6 +71,7 @@ export class Elems {
   }
 
   mapDiagonals() {
+    // console.log( 'mapDiagonals()');
     const {numberOfRows, numberOfCols} = ({...this.params});
     // @formatter:off
     const paramArr = [
@@ -118,18 +141,21 @@ export class Elems {
     // console.log( 'append');
     return {
       row(index) {
-        _this.container.append(_this.build().row(index));
+        _this.boardElem.append(_this.build().row(index));
         // console.log('add row');
       },
       cell(cellId) {
-        const lineId   = cellId.split(':')[0];
+        // console.log( 'in cellId');
+        const rowId    = cellId.split(':')[0];
         const cell     = _this.build().cell(cellId);
         cell.innerText = cellId;
-        document.getElementById(lineId).append(cell);
+        document.getElementById(rowId).append(cell);
         // console.log('add cell');
       },
-      cellMapEntry() {
-        console.log('add entry');
+      chipCell(index) {
+        const chipCell = _this.build().chipCell();
+        chipCell.id    = 'chipCell_' + index;
+        _this.chipsElem.append(chipCell);
       },
     };
   }
@@ -152,12 +178,17 @@ export class Elems {
         cellDiv.classList.add('cellDiv');
         return cellDiv;
       },
-      cellMapValue(row, col) {
-        // console.log('calculate value');
-        return {
-          positionInRow: (numberOfCols + 1) * numberOfRows + col,
-          positionInCol: (numberOfRows + 1) * numberOfCols + l,
-        };
+      chip(row, col) {
+        const chipDiv = document.createElement('div');
+        // chipDiv.setAttribute('pair', row + ':' + col );
+        chipDiv.classList.add('chipDiv');
+        return chipDiv;
+      },
+      chipCell() {
+        const chipCell = document.createElement('div');
+        // chipDiv.setAttribute('pair', row + ':' + col );
+        chipCell.classList.add('chipCell');
+        return chipCell;
       },
     };
   }
