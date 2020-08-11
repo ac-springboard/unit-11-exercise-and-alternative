@@ -19,6 +19,11 @@ export class Play {
     return this.players[ this.activePlayerIndex ];
   }
 
+  setNextActivePlayer(){
+    let active = this.activePlayerIndex;
+    this.activePlayerIndex = ++active > this.numberOfPlayers -1 ? 0 : active;
+  }
+
   mapPlayers() {
     for (let i = 0; i < this.numberOfPlayers; i++) {
       this.players.push(new Player(i));

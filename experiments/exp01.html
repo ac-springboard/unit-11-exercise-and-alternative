@@ -37,5 +37,21 @@
     <div class="inner"></div>
     <div class="inner"></div>
 </div>
+
+
+<audio id="audio"  preload="auto" src="../connect-them/src/resources/borg-1.mp3"></audio>
+<div id="test" style="background-color:red;" class="whiterose">
+  <a href="http://sarahboulton.co.uk">white rose?</a>
+</div>
+
+<script>
+  var test = document.getElementById("test");
+  test.addEventListener("mouseover", function( event ) {
+    var audio = document.getElementById("audio");
+    audio.play();
+  }, false);
+</script>
+
+
 </body >
 </html >

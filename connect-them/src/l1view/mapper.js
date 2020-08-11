@@ -5,8 +5,12 @@ import {validRowCol} from '../utils.js';
 
 export class Mapper {
   constructor(params) {
-    this.params     = params;
-    this.cellMap    = new Map();
+    this.play            = new Play(params.numberOfPlayers);
+    this.params          = params;
+    this.cellMap         = new Map();
+    //
+    this.chipCellCounter = new Array(params.numberOfCols);
+    this.chipCellCounter.fill(params.numberOfRows - 1);
     //
     this.chipsElem  = document.getElementById('chips');
     this.boardElem  = document.getElementById('board');
@@ -18,7 +22,6 @@ export class Mapper {
     this.mapChipCells();
     this.mapRowsCols();
     this.mapDiagonals();
-    this.play = new Play(this.params.numberOfPlayers);
     this.setPlayer();
 
     // this.mapPlayers();
@@ -27,9 +30,9 @@ export class Mapper {
 
   setPlayer() {
     console.log('activePlayer:', this.play.getActivePlayer());
-    const activePlayer                    = this.play.getActivePlayer();
+    const activePlayer          = this.play.getActivePlayer();
     this.playerElem.style.color = activePlayer.color();
-    this.playerElem.innerText             = activePlayer.name();
+    this.playerElem.innerText   = activePlayer.name();
   }
 
   mapChipCells() {
@@ -81,6 +84,7 @@ export class Mapper {
       { initialRow: numberOfRows - 1, initialCol: 1, direction: 'up',   group: 'below' },
     ];
     // @formatter:on
+
     let validInitialRowCol;
     let validCurrentRowCol;
 
@@ -153,8 +157,8 @@ export class Mapper {
         // console.log('add cell');
       },
       chipCell(index) {
-        const chipCell = _this.build().chipCell();
-        chipCell.id    = 'chipCell_' + index;
+        const chipCell = _this.build().chipCell(index);
+        // chipCell.id    = 'chipCell_' + index;
         _this.chipsElem.append(chipCell);
       },
     };
@@ -178,17 +182,74 @@ export class Mapper {
         cellDiv.classList.add('cellDiv');
         return cellDiv;
       },
-      chip(row, col) {
+      chip(row, col, cor) {
         const chipDiv = document.createElement('div');
         // chipDiv.setAttribute('pair', row + ':' + col );
         chipDiv.classList.add('chipDiv');
+        chipDiv.style.backgroundColor = cor;
         return chipDiv;
       },
-      chipCell() {
+      chipCell(index) {
         const chipCell = document.createElement('div');
         // chipDiv.setAttribute('pair', row + ':' + col );
+        chipCell.id    = 'chipcell_' + index;
+        chipCell.setAttribute('col', index);
         chipCell.classList.add('chipCell');
+        const color = _this.play.getActivePlayer().color();
+        chipCell.addEventListener('mouseenter', () => {
+          chipCell.style.backgroundColor = color;
+        });
+        chipCell.addEventListener('mouseleave', () => {
+          chipCell.style.backgroundColor = 'transparent';
+        });
+        chipCell.addEventListener('click', () => {
+          // chipCell.append( _this.build().chip(0,0, color ));
+          _this.anim(Number(chipCell.getAttribute('col')), 500).start();
+        });
+
         return chipCell;
+      },
+    };
+  }
+
+  anim(col, interval) {
+    const _this = this;
+    let setIntervalId;
+    let cell;
+    let finalRow;
+    let row;
+    // let transparent = true;
+    let cor;
+    let cellId;
+    let previousCell;
+    const color = _this.play.getActivePlayer().color();
+    return {
+      start() {
+        finalRow      = _this.chipCellCounter[col];
+        row           = 0;
+        previousCell  = undefined;
+        //
+        setIntervalId = setInterval(this.doAnim, interval);
+      },
+      doAnim() {
+        if (row > 0) {
+          previousCell.setAttribute('style', 'background-color: transparent !important');
+        }
+        cellId = row + ':' + col;
+        cell   = document.getElementById(cellId);
+        cell.setAttribute('style', 'background-color: ' + color + ' !important');
+        if (row === finalRow) {
+          clearInterval(setIntervalId);
+          _this.chipCellCounter[col]--;
+          _this.play.setNextActivePlayer();
+          _this.setPlayer();
+          if (_this.chipCellCounter[col] < 0) {
+            document.getElementById('chipcell_' + col).setAttribute('style', 'visibility: hidden');
+          }
+        } else {
+          row++;
+        }
+        previousCell = cell;
       },
     };
   }
