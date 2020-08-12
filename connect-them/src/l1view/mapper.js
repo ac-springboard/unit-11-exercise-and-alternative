@@ -5,10 +5,9 @@ import {validRowCol} from '../utils.js';
 
 export class Mapper {
   constructor(params) {
-    this.play            = new Play(params.numberOfPlayers);
     this.params          = params;
     this.cellMap         = new Map();
-    //
+    this.lastPosition = {  rowCol: 0, up: 0 , down: 0};
     this.chipCellCounter = new Array(params.numberOfCols);
     this.chipCellCounter.fill(params.numberOfRows - 1);
     //
@@ -17,15 +16,21 @@ export class Mapper {
     this.playerElem = document.getElementById('player');
     this.init();
   }
+    //
 
   init() {
     this.mapChipCells();
     this.mapRowsCols();
     this.mapDiagonals();
+    this.play            = new Play(this.params.numberOfPlayers, this.params.winnerLineLength, this.cellMap, this.lastPosition);
     this.setPlayer();
 
     // this.mapPlayers();
-    // console.log('MAP', this.cellMap);
+    console.log('MAP', this.cellMap);
+  }
+
+  getLastPosition(){
+    return this.lastPosition;
   }
 
   setPlayer() {
@@ -44,7 +49,7 @@ export class Mapper {
   mapRowsCols() {
     // console.log( 'mapRowsCols()');
     const {numberOfRows, numberOfCols} = ({...this.params});
-    let ec                             = 0;
+    // let lastPositionRowCol = 0;
     let val, cellId, positionInRowCol;
     for (let row = 0; row < numberOfRows; row++) {
       this.add().row(row);
@@ -66,10 +71,12 @@ export class Mapper {
           };
           this.cellMap.set(cellId, val);
         }
+        this.lastPosition.rowCol = Math.max( this.lastPosition.rowCol, positionInRowCol.row, positionInRowCol.col);
         // console.log(cellId, val);
         // this.cellMap.set( row+':'+col, { pl: (nc+1)*l+c, pc: (nl+1)*c+l });
       }
-      ec++;
+      // ec++;
+      // console.log( 'this.lastPosition:', this.lastPosition );
     }
   }
 
@@ -107,6 +114,9 @@ export class Mapper {
             positionInDiagonal: {},
           };
           val.positionInDiagonal[param.direction] = positionInDiagonal[param.direction];
+
+          this.lastPosition[param.direction] = Math.max( this.lastPosition[param.direction], positionInDiagonal[param.direction]);
+
           positionInDiagonal[param.direction]++;
 
           this.cellMap.set(key, val);
@@ -134,6 +144,7 @@ export class Mapper {
         }
         positionInDiagonal[param.direction]++;
       }
+      console.log( 'lastPosition:', this.lastPosition );
     }
 
     // console.log('cellMap', this.cellMap);
@@ -195,9 +206,8 @@ export class Mapper {
         chipCell.id    = 'chipcell_' + index;
         chipCell.setAttribute('col', index);
         chipCell.classList.add('chipCell');
-        const color = _this.play.getActivePlayer().color();
         chipCell.addEventListener('mouseenter', () => {
-          chipCell.style.backgroundColor = color;
+          chipCell.style.backgroundColor = _this.play.getActivePlayer().color();
         });
         chipCell.addEventListener('mouseleave', () => {
           chipCell.style.backgroundColor = 'transparent';
@@ -240,9 +250,9 @@ export class Mapper {
         cell.setAttribute('style', 'background-color: ' + color + ' !important');
         if (row === finalRow) {
           clearInterval(setIntervalId);
-          _this.chipCellCounter[col]--;
-          _this.play.setNextActivePlayer();
+          _this.play.update( _this.play.getActivePlayer(), cellId );
           _this.setPlayer();
+          _this.chipCellCounter[col]--;
           if (_this.chipCellCounter[col] < 0) {
             document.getElementById('chipcell_' + col).setAttribute('style', 'visibility: hidden');
           }

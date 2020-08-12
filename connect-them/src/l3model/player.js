@@ -3,9 +3,11 @@
 import {randomColor} from '../utils.js';
 
 export class Player {
-  constructor(number) {
-    this.cor  = randomColor();
-    this.nome = 'Player #' + (number + 1);
+  constructor(number, winnerLineLength) {
+    this.cor     = randomColor();
+    this.nome    = 'Player #' + (number + 1);
+    this.symbolo = String.fromCharCode(57 + number);
+    this.string  = this.symbolo.repeat(winnerLineLength);
   }
 
   color() {
@@ -14,6 +16,14 @@ export class Player {
 
   name() {
     return this.nome;
+  }
+
+  symbol() {
+    return this.symbolo;
+  }
+
+  winnerString() {
+    return this.string;
   }
 }
 
