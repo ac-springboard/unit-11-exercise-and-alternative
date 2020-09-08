@@ -1,9 +1,12 @@
 html, body {
-  background: linear-gradient(to bottom, rgba(3,75, 82, 1) 0%, rgba(3,75, 82, 0) 100%);
-  height: 100%;
-  margin: 0;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  /*background: linear-gradient(to bottom, rgba(3,75, 82, 1) 0%, rgba(3,75, 82, 0) 100%);   */
+  background             : url("../../assets/images/background.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  /*height: 100%;
+  width: 100%;   */
 }
 #main {
   width      : 100%;
@@ -19,6 +22,7 @@ html, body {
   /*overflow: auto;*/
   /*clear: both;*/
   display             : inline-grid;
+  z-index: 5000;
   background-color    : black;
   /*border              : 5px solid yellow;*/
   box-shadow: inset 0 0 50px 20px yellow,
@@ -44,6 +48,7 @@ html, body {
   padding           : 8px;
   -webkit-text-stroke: 2px ghostwhite;
   font-family: 'Black Ops One', cursive;
+  z-index : 10000;
 }
 
 
@@ -120,7 +125,7 @@ html, body {
   animation-name            : pulse;
   animation-duration        : 1.5s;
   animation-iteration-count : infinite;
-  border                    : none;
   opacity                   : 1.0;
+  border: 10px magenta dashed;
 
 }

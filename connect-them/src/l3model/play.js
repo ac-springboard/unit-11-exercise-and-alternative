@@ -60,9 +60,10 @@ export class Play {
     const winner = this.isWinner(player.winnerString());
     if (winner) {
       console.log('Winner:' + player.name());
-    } else {
-      this.setNextActivePlayer();
+      return true;
     }
+    this.setNextActivePlayer();
+    return false;
   }
 
   // checkForWinner(){

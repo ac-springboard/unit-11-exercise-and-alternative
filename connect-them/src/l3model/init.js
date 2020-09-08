@@ -14,6 +14,8 @@ export default class Init {
     console.log('Init.init()...');
     if (!isValidInput(this.params)) {
       console.error('ERROR! Invalid input data:', this.params);
+      // TODO: back to the Welcome Page
+      return;
     }
 
     // TODO: HOW IS THIS VAR USED?

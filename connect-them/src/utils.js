@@ -1,5 +1,11 @@
 'use strict';
 
+const playSound = ( path, loop ) => {
+    const audio = new Audio(path);
+    audio.loop = loop;
+    audio.play();
+}
+
 const inRange = (val, lower, higher) => val >= lower && val <= higher;
 
 const validRowCol = (row, col, params) =>
@@ -29,4 +35,4 @@ const isValidInput = (params) => {
 
 const randomIntInclusive = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-export {validRowCol, randomColor, isValidInput, randomIntInclusive}
+export {playSound, validRowCol, randomColor, isValidInput, randomIntInclusive}

@@ -1,7 +1,7 @@
 'use strict';
 
 import {Play}        from '../l3model/play.js';
-import {validRowCol} from '../utils.js';
+import {playSound, validRowCol} from '../utils.js';
 
 export class Mapper {
   constructor(params) {
@@ -24,9 +24,9 @@ export class Mapper {
     this.mapDiagonals();
     this.play            = new Play(this.params.numberOfPlayers, this.params.winnerLineLength, this.cellMap, this.lastPosition);
     this.setPlayer();
-
+    playSound( '../../assets/sounds/ambience.wav', true );
     // this.mapPlayers();
-    console.log('MAP', this.cellMap);
+    // console.log('MAP', this.cellMap);
   }
 
   getLastPosition(){
@@ -37,7 +37,7 @@ export class Mapper {
     console.log('activePlayer:', this.play.getActivePlayer());
     const activePlayer          = this.play.getActivePlayer();
     this.playerElem.style.color = activePlayer.color();
-    this.playerElem.innerText   = activePlayer.name();
+    this.playerElem.innerHTML   = activePlayer.name();
   }
 
   mapChipCells() {
@@ -246,11 +246,16 @@ export class Mapper {
           previousCell.setAttribute('style', 'background-color: transparent !important');
         }
         cellId = row + ':' + col;
-        cell   = document.getElementById(cellId);
+        cell = document.getElementById(cellId);
         cell.setAttribute('style', 'background-color: ' + color + ' !important');
+        playSound( '../../assets/sounds/chip.wav');
         if (row === finalRow) {
           clearInterval(setIntervalId);
-          _this.play.update( _this.play.getActivePlayer(), cellId );
+          playSound( '../../assets/sounds/done.wav');
+          if (_this.play.update(_this.play.getActivePlayer(), cellId)) {
+            _this.winner();
+            return;
+          }
           _this.setPlayer();
           _this.chipCellCounter[col]--;
           if (_this.chipCellCounter[col] < 0) {
@@ -260,7 +265,13 @@ export class Mapper {
           row++;
         }
         previousCell = cell;
-      },
+      }
     };
   }
+  winner(){
+    this.playerElem.innerHTML   = "WINNER <br />" + this.play.getActivePlayer().name();
+    this.playerElem.classList.add('winner');
+    playSound( '../../assets/sounds/winner.wav', true );
+  }
+
 }
