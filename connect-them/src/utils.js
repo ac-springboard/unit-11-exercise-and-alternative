@@ -3,7 +3,7 @@
 const playSound = ( path, loop ) => {
     const audio = new Audio(path);
     audio.loop = loop;
-    audio.play();
+    return audio;
 }
 
 const inRange = (val, lower, higher) => val >= lower && val <= higher;

@@ -24,7 +24,11 @@ export class Mapper {
     this.mapDiagonals();
     this.play            = new Play(this.params.numberOfPlayers, this.params.winnerLineLength, this.cellMap, this.lastPosition);
     this.setPlayer();
-    playSound( '../../assets/sounds/ambience.wav', true );
+    this.ambienceAudio = playSound( '../../assets/sounds/ambience.wav', true );
+    this.ambienceAudio.play();
+    this.chipAudio = playSound( '../../assets/sounds/chip.wav');
+    this.doneAudio = playSound( '../../assets/sounds/done.wav');
+    this.winnerAudio = playSound( '../../assets/sounds/winner.wav', true );
     // this.mapPlayers();
     // console.log('MAP', this.cellMap);
   }
@@ -205,14 +209,21 @@ export class Mapper {
         // chipDiv.setAttribute('pair', row + ':' + col );
         chipCell.id    = 'chipcell_' + index;
         chipCell.setAttribute('col', index);
+        // chipCell.setAttribute('disabled','disabled');
         chipCell.classList.add('chipCell');
-        chipCell.addEventListener('mouseenter', () => {
+        chipCell.addEventListener('mousemove', () => {
+          if ( chipCell.hasAttribute('disabled')){
+            return false;
+          }
           chipCell.style.backgroundColor = _this.play.getActivePlayer().color();
         });
         chipCell.addEventListener('mouseleave', () => {
           chipCell.style.backgroundColor = 'transparent';
         });
         chipCell.addEventListener('click', () => {
+          if ( chipCell.hasAttribute('disabled')){
+            return false;
+          }
           // chipCell.append( _this.build().chip(0,0, color ));
           _this.anim(Number(chipCell.getAttribute('col')), 500).start();
         });
@@ -239,19 +250,21 @@ export class Mapper {
         row           = 0;
         previousCell  = undefined;
         //
+        _this.disableChipCells();
         setIntervalId = setInterval(this.doAnim, interval);
+
       },
       doAnim() {
         if (row > 0) {
           previousCell.setAttribute('style', 'background-color: transparent !important');
         }
+        _this.chipAudio.playbackRate=2.0;
         cellId = row + ':' + col;
         cell = document.getElementById(cellId);
         cell.setAttribute('style', 'background-color: ' + color + ' !important');
-        playSound( '../../assets/sounds/chip.wav');
         if (row === finalRow) {
+          _this.doneAudio.play();
           clearInterval(setIntervalId);
-          playSound( '../../assets/sounds/done.wav');
           if (_this.play.update(_this.play.getActivePlayer(), cellId)) {
             _this.winner();
             return;
@@ -261,17 +274,28 @@ export class Mapper {
           if (_this.chipCellCounter[col] < 0) {
             document.getElementById('chipcell_' + col).setAttribute('style', 'visibility: hidden');
           }
+        _this.enableChipCells();
         } else {
+        _this.chipAudio.play();
           row++;
         }
         previousCell = cell;
+
       }
     };
   }
   winner(){
     this.playerElem.innerHTML   = "WINNER <br />" + this.play.getActivePlayer().name();
     this.playerElem.classList.add('winner');
-    playSound( '../../assets/sounds/winner.wav', true );
+    // _this.disableChipCells();
+    this.winnerAudio.play();
+  }
+
+  disableChipCells(){
+    document.querySelectorAll('.chipCell').forEach((cell) => cell.setAttribute('disabled', 'true') );
+  }
+  enableChipCells(){
+    document.querySelectorAll('.chipCell').forEach((cell) => cell.removeAttribute('disabled') );
   }
 
 }
