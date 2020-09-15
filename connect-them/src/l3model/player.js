@@ -6,6 +6,7 @@ export class Player {
   constructor(number, winnerLineLength) {
     this.cor     = randomColor();
     this.nome    = 'Player #' + (number + 1);
+    this.iniciais = 'P' + (number + 1 );
     this.symbolo = String.fromCharCode(57 + number);
     this.string  = this.symbolo.repeat(winnerLineLength);
   }
@@ -16,6 +17,10 @@ export class Player {
 
   name() {
     return this.nome;
+  }
+
+  initials(){
+    return this.iniciais;
   }
 
   symbol() {
