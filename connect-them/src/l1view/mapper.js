@@ -3,6 +3,7 @@
 import {Play} from '../l3model/play.js';
 import {invertColor, playSoundsNTimes, playSoundNTimes, setSound, validRowCol } from '../utils.js';
 
+// TODO: Create a separate class for the mapping of rows, cols, and diagonals. It can be an independent object.
 export class Mapper {
     constructor(params) {
         this.params = params;
@@ -34,7 +35,9 @@ export class Mapper {
         this.winnerAudio = setSound('../../assets/sounds/winner.wav');
         this.otherAudio = setSound('../../assets/sounds/borg-1.mp3');
         console.log('before');
+        // TODO: Create an independent object to treat the sounds. Make is reusable by other applications.
         // playSoundNTimes(this.winnerAudio, 2);
+        /*
         const soundList = [
             {sound: this.chipAudio, times: 5},
             {sound: this.doneAudio, times: 4},
@@ -42,6 +45,7 @@ export class Mapper {
             {sound: this.winnerAudio, times: 2},
         ];
         playSoundsNTimes(soundList);
+        */
         // pl( this.winnerAudio, this.winnerAudio, this.winnerAudio )
         // pl( this.chipAudio )
         //     .then(() => {

@@ -9,4 +9,4 @@ const params = {
   winnerLineLength: 3
 }
 const controller = new Controller();
-controller.initGame( params );
+// controller.initGame( params );

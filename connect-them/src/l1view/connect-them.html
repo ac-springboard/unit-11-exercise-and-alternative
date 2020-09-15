@@ -9,23 +9,44 @@
             type="module"></script>
     <link href="connect-them.css"
           rel="stylesheet">
-<!--    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cabin+Sketch&display=swap"-->
-<!--          rel="stylesheet">-->
+    <!--    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cabin+Sketch&display=swap"-->
+    <!--          rel="stylesheet">-->
+    <style type="text/css">
+
+    </style>
 </head>
 <body>
 <div id="main">
-    <div id="welcoming">
+    <div id="welcome">
+        <!--        <div id="params">-->
+        <div class="input_row glow">
+            <div class="params_label glow">Players</div>
+            <input class="params_input glow" id="n_players" type="number" value="2"/>
+        </div>
+        <div class="input_row">
+            <div class="params_label glow">Cols</div>
+            <input class="params_input glow" id="n_cols" type="number" value="6"/>
+        </div>
+        <div class="input_row">
+            <div class="params_label glow">Rows</div>
+            <input class="params_input glow" id="n_rows" type="number" value="4"/>
+        </div>
+        <div class="input_row">
+            <div class="params_label glow">Segment Size</div>
+            <input class="params_input glow" id="n_winner" type="number" value="2"/>
+        </div>
 
     </div>
-<!--    <div id="playing" style="display: none;">-->
-    <div id="playing">
+    <div id="play" style="display: none;">
+        <!--    <div id="playing">-->
         <div class="glow" id="player"></div>
-        <div id="container">
+        <div id="container" style="display: none;">
             <div id="chips"></div>
             <div id="board"></div>
         </div>
     </div>
 </div>
+<div id="go" class="glow">GO!</div>
 <!--<script src="scratch.js" ></script >-->
 </body>
 </html>

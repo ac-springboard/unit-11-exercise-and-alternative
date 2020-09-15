@@ -3,7 +3,7 @@
 const setSound = (path, loop) => {
     const audio = new Audio(path);
     console.log(audio);
-    // audio.loop = loop;
+    audio.loop = loop;
     return audio;
 }
 
@@ -18,7 +18,7 @@ const setSound = (path, loop) => {
 
 // audio.loop = loop;
 //}
-
+// TODO: Create an independent object to treat sounds
 const playSoundNTimes = async (audio, count, callback ) => {
     return new Promise(async ( resolve, reject ) => {
         let aCopy = new Audio(audio.getAttribute('src'));
