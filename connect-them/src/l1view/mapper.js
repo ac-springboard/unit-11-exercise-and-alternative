@@ -12,9 +12,12 @@ export class Mapper {
         this.chipCellCounter = new Array(params.numberOfCols);
         this.chipCellCounter.fill(params.numberOfRows - 1);
         //
+        this.playElement=document.getElementById("play");
         this.chipsElem = document.getElementById('chips');
         this.boardElem = document.getElementById('board');
         this.playerElem = document.getElementById('player');
+        console.log("playElement", this.playElement);
+        this.playElement.removeAttribute("style");
         this.init();
     }
 
@@ -26,10 +29,7 @@ export class Mapper {
         this.mapDiagonals();
         this.play = new Play(this.params.numberOfPlayers, this.params.winnerLineLength, this.cellMap, this.lastPosition);
         this.setPlayer();
-        this.ambienceAudio = setSound('../../assets/sounds/ambience.wav', true);
-        this.ambienceAudio.play();
-        // TODO: Set default volume in a config file
-        this.ambienceAudio.volume = 0.5;
+        //
         this.chipAudio = setSound('../../assets/sounds/chip.wav');
         this.doneAudio = setSound('../../assets/sounds/done.wav');
         this.winnerAudio = setSound('../../assets/sounds/winner.wav');
@@ -289,9 +289,9 @@ export class Mapper {
                 if (row === finalRow) {
                     _this.doneAudio.play();
                     clearInterval(setIntervalId);
-                    16777215
+                    // 16777215
                     cell.classList.add('initials');
-                    const inverted = invertColor(color);
+                    // const inverted = invertColor(color);
                     // cell.style.textShadow = "0px 5px 5px " + inverted;
                     cell.innerText = _this.play.getActivePlayer().initials();
                     if (_this.play.update(_this.play.getActivePlayer(), cellId)) {
@@ -322,6 +322,7 @@ export class Mapper {
         this.winnerAudio.volume = 0.3;
         playSoundNTimes(this.winnerAudio, 3);
         console.log('loop:', this.winnerAudio.loop);
+        // TODO: Highlight the winner cells
         // this.winnerAudio.play();
     }
 

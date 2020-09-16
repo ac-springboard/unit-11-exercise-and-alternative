@@ -8,6 +8,8 @@
     unicode-range : U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+ /*TODO: Optimize the whole css*/
+
 html, body {
     /*background: linear-gradient(to bottom, rgba(3,75, 82, 1) 0%, rgba(3,75, 82, 0) 100%);   */
     background              : url("../../assets/images/background.png") no-repeat center center fixed;
@@ -45,7 +47,8 @@ html, body {
     /*margin: auto;*/
 
     /*width: 20%;*/
-    position : absolute;
+    position : relative;
+    /*text-align: center;*/
 }
 
 #params {
@@ -69,20 +72,26 @@ html, body {
 
 #go {
     font-family         : "Black Ops One", cursive;
-    display   : block;
-    color     : red;
-    font-size : 10vw;
-    position  : absolute;
+    display             : block;
+    color               : red;
+    font-size           : 10vw;
+    position            : absolute;
     /*top       : 50%;*/
     /*transform : translateY(-50%);*/
-    bottom: 0.0vw;
-    left      : 50%;
-    transform : translateX(-50%);
-    opacity: 0.8;
+    bottom              : 0.0vw;
+    left                : 50%;
+    transform           : translateX(-50%);
+    opacity             : 0.8;
     color               : transparent;
     font-size           : 20.0vw;
     -webkit-text-stroke : 1px magenta;
     text-shadow         : -1px 1px 1px yellow;
+    cursor: e-resize;
+}
+
+.center {
+    left      : 50%;
+    transform : translateX(-50%);
 }
 
 .params_label {
@@ -111,7 +120,7 @@ html, body {
     /*width: 4.0em;*/
     /*height: 3.0em;*/
     /*line-height: 3.0em;*/
-    color: cyan !important;
+    color: yellow !important;
     background-color : transparent;
     /*border: 1px solid red;*/
     border           : none;
@@ -146,7 +155,7 @@ input[type=number] {
 
 #container {
     /*width: 350px;*/
-    /*margin           : 50%;*/
+    /*m'argin           : 50%;*/
     text-align          : center;
     padding             : 20px;
     /*overflow: auto;*/
@@ -271,4 +280,15 @@ input[type=number] {
     2px 2px 4px yellow,
     2px -2px 0 yellow,
     -2px -2px 0 yellow;
+}
+
+#error{
+    position: absolute;
+    bottom: 0;
+    display: block;
+    clear: both;
+    color: red;
+    font-family: "Black Ops One", cursive;
+    font-size: 4vw;
+    width: 100%;
 }
