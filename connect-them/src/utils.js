@@ -2,33 +2,21 @@
 
 const setSound = (path, loop) => {
     const audio = new Audio(path);
-    console.log(audio);
     audio.loop = loop;
     return audio;
 }
 
-// const playSoundNTimes = ( audio, n ) => {
-//     const loop = audio.loop;
-//     audio.loop = false;
-// for ( let i = 0; i < n ; i++ ){
-//     console.log( 'play sound #', i + 1 );
-//     console.log( 'audio.play()', audio.play() );
-// }
 
-
-// audio.loop = loop;
-//}
 // TODO: Create an independent object to treat sounds
-const playSoundNTimes = async (audio, count, callback ) => {
-    return new Promise(async ( resolve, reject ) => {
+const playSoundNTimes = async (audio, count, callback) => {
+    return new Promise(async (resolve, reject) => {
         let aCopy = new Audio(audio.getAttribute('src'));
         aCopy.loop = false;
         const endedHandler = async (e) => {
             if (--count > 0) {
                 await aCopy.play();
             } else {
-                 console.log( 'handler done');
-                 callback();
+                callback();
             }
         };
         aCopy.addEventListener('ended', endedHandler, false);
@@ -40,22 +28,19 @@ const playSoundNTimes = async (audio, count, callback ) => {
 // const nextSound = (sounds) => playSoundsNTimes(sounds);
 
 const playSoundsNTimes = async (sounds) => {
-    console.log( 'in playSoundsNTimes');
     let idx = 0;
     let pr;
     let s, t;
     const play = () => {
-        console.log('in playSoundsNTimes/return');
         if (idx >= sounds.length) {
             return;
         }
         s = sounds[idx].sound;
         t = sounds[idx].times;
-        console.log( 'idx:', idx, 's:', s, 't:', t );
-        playSoundNTimes( s, t, play );
+        playSoundNTimes(s, t, play);
         idx++;
     }
-   play();
+    play();
 }
 
 const inRange = (val, lower, higher) => val >= lower && val <= higher;

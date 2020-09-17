@@ -24,8 +24,6 @@ export class Mapper {
         this.boardElem = document.getElementById('board');
         this.playerElem = document.getElementById('player_panel');
         this.goElem = document.getElementById("go");
-        console.log("goElem", this.goElem);
-        // console.log("playElement", this.playElement);
         this.playRoomElem.removeAttribute("style");
         this.availableChipCells = params.numberOfCols;
         this.init();
@@ -44,33 +42,12 @@ export class Mapper {
         this.chipAudio = setSound('../../assets/sounds/chip.wav');
         this.doneAudio = setSound('../../assets/sounds/done.wav');
         this.winnerAudio = setSound('../../assets/sounds/winner.wav');
-        // this.otherAudio = setSound('../../assets/sounds/borg-1.mp3');
         this.startOverAudio = setSound('../../assets/sounds/start-over.wav');
         const ambienceAudio = setSound('../../assets/sounds/ambience.wav', true);
         ambienceAudio.play();
         ambienceAudio.volume = 0.5;
         this.startOverElem.style.display = 'block';
         // TODO: Create an independent object to treat the sounds. Make is reusable by other applications.
-        // playSoundNTimes(this.winnerAudio, 2);
-        // this.tickerAnim();
-        /*
-        const soundList = [
-            {sound: this.chipAudio, times: 5},
-            {sound: this.doneAudio, times: 4},
-            {sound: this.otherAudio, times: 3},
-            {sound: this.winnerAudio, times: 2},
-        ];
-        playSoundsNTimes(soundList);
-        */
-        // pl( this.winnerAudio, this.winnerAudio, this.winnerAudio )
-        // pl( this.chipAudio )
-        //     .then(() => {
-        //
-        //     })
-        //     .then( pl(this.winnerAudio) );
-        // console.log('after');
-        // this.mapPlayers();
-        // console.log('MAP', this.cellMap);
     }
 
     getLastPosition() {
@@ -78,7 +55,6 @@ export class Mapper {
     }
 
     setPlayer() {
-        console.log('activePlayer:', this.play.getActivePlayer());
         const activePlayer = this.play.getActivePlayer();
         this.playerElem.style.color = activePlayer.color();
         this.playerElem.innerHTML = activePlayer.name();
@@ -91,7 +67,6 @@ export class Mapper {
     }
 
     mapRowsCols() {
-        // console.log( 'mapRowsCols()');
         const {numberOfRows, numberOfCols} = ({...this.params});
         // let lastPositionRowCol = 0;
         let val, cellId, positionInRowCol;
@@ -105,7 +80,6 @@ export class Mapper {
                     col: (numberOfRows + 1) * col + row,
                 };
                 val = this.cellMap.get(cellId);
-                // console.log('val:', val);
                 if (val) {
                     val.positionInRowCol = positionInRowCol;
                 } else {
@@ -116,16 +90,11 @@ export class Mapper {
                     this.cellMap.set(cellId, val);
                 }
                 this.lastPosition.rowCol = Math.max(this.lastPosition.rowCol, positionInRowCol.row, positionInRowCol.col);
-                // console.log(cellId, val);
-                // this.cellMap.set( row+':'+col, { pl: (nc+1)*l+c, pc: (nl+1)*c+l });
             }
-            // ec++;
-            // console.log( 'this.lastPosition:', this.lastPosition );
         }
     }
 
     mapDiagonals() {
-        // console.log( 'mapDiagonals()');
         const {numberOfRows, numberOfCols} = ({...this.params});
         // @formatter:off
         const paramArr = [
@@ -164,11 +133,9 @@ export class Mapper {
                     positionInDiagonal[param.direction]++;
 
                     this.cellMap.set(key, val);
-                    // console.log(iRow, iCol, cRow, cCol, key, val);
                     cRow += param.direction === 'down' ? 1 : -1;
                     cCol++;
                 }
-                // console.log('------------------');
                 if (param.direction === 'down') {
                     if (param.group === 'right') {
                         iRow = param.initialRow;
@@ -188,32 +155,24 @@ export class Mapper {
                 }
                 positionInDiagonal[param.direction]++;
             }
-            console.log('lastPosition:', this.lastPosition);
         }
-
-        // console.log('cellMap', this.cellMap);
 
     }
 
     add() {
         const _this = this;
-        // console.log( 'append');
         return {
             row(index) {
                 _this.boardElem.append(_this.build().row(index));
-                // console.log('add row');
             },
             cell(cellId) {
-                // console.log( 'in cellId');
                 const rowId = cellId.split(':')[0];
                 const cell = _this.build().cell(cellId);
                 cell.innerText = cellId;
                 document.getElementById(rowId).append(cell);
-                // console.log('add cell');
             },
             chipCell(index) {
                 const chipCell = _this.build().chipCell(index);
-                // chipCell.id    = 'chipCell_' + index;
                 _this.chipsElem.append(chipCell);
             },
         };
@@ -224,14 +183,12 @@ export class Mapper {
         const {numberOfRows, numberOfCols} = ({..._this.params});
         return {
             row(index) {
-                // console.log('build row');
                 const rowDiv = document.createElement('div');
                 rowDiv.id = index;
                 rowDiv.classList.add('lineDiv');
                 return rowDiv;
             },
             cell(cellId) {
-                // console.log('build cell');
                 const cellDiv = document.createElement('div');
                 cellDiv.id = cellId;
                 cellDiv.classList.add('cellDiv');
@@ -318,8 +275,7 @@ export class Mapper {
                     _this.chipCellCounter[col]--;
                     if (_this.chipCellCounter[col] < 0) {
                         document.getElementById('chipcell_' + col).setAttribute('style', 'visibility: hidden');
-                        if ( --_this.availableChipCells === 0 ){
-                            console.log( "TIE!");
+                        if (--_this.availableChipCells === 0) {
                             _this.tie();
                             return;
                         }
@@ -346,13 +302,10 @@ export class Mapper {
     winner() {
         this.playerElem.innerHTML = "WINNER <br />" + this.play.getActivePlayer().name();
         this.playerElem.classList.add('winner', 'pulse', 'glow');
-        // _this.disableChipCells();
         // TODO: Set default volume in a config file
         this.winnerAudio.volume = 0.3;
         playSoundNTimes(this.winnerAudio, 3);
-        // console.log('loop:', this.winnerAudio.loop);
         // TODO: Highlight the winner cells
-        // this.winnerAudio.play();
     }
 
     disableChipCells() {
@@ -371,16 +324,13 @@ export class Mapper {
         const so = this.startOverElem;
         const w = this.welcomeElem;
         const pr = this.playRoomElem;
-        // const go = this.goElem;
         let click = 0;
         return (e) => {
-            console.log('evt', e);
             if (++click === 1) {
                 so.innerText = 'Start Over?';
                 so.classList.add('highlight', 'shake');
                 _this.startOverAudio.play();
                 // const rect = _this.playRoomElem.getBoundingClientRect();
-                // console.log( rect );
                 setTimeout(() => {
                     so.innerText = 'Start Over';
                     click = 0;
@@ -389,17 +339,14 @@ export class Mapper {
                 }, 3000);
 
             } else {
-                console.log('Starting over!');
                 this.startOverAudio.pause();
                 so.style.display = 'none';
                 pr.style.display = 'none';
                 _this.chipsElem.innerHTML = '';
                 _this.boardElem.innerHTML = '';
                 w.style.display = 'flex';
-                _this.playerElem.classList.remove( 'pulse', 'winner');
+                _this.playerElem.classList.remove('pulse', 'winner');
                 _this.goElem.style.display = 'block';
-
-                // pr.innerHTML='';
             }
         }
     }

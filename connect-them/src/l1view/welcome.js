@@ -5,13 +5,6 @@
 import {Controller} from '../l2controller/controller.js';
 import {isValidInput, setSound} from "../utils.js";
 
-// const params = {
-//   numberOfPlayers: 2,
-//   numberOfRows: 4,
-//   numberOfCols: 6,
-//   winnerLineLength: 3
-// }
-
 const change = setSound('../../assets/sounds/borg-1.mp3');
 change.playbackRate = 4.0;
 const fail = setSound('../../assets/sounds/fail.mp3');
@@ -35,8 +28,6 @@ const go = document.getElementById("go");
 const welcome = document.getElementById('welcome');
 const play_room = document.getElementById("play_room");
 const main = document.getElementById("main");
-
-// const params =
 
 const inputs = document.querySelectorAll('.params_input');
 for (let i of inputs) {
@@ -62,34 +53,31 @@ go.addEventListener('click', (e) => {
     }
 });
 
-function tickerAnim(){
+function tickerAnim() {
     const tickerElem = document.getElementById("ticker");
     let intv;
     let x = tickerElem.getBoundingClientRect().x;
     let w = tickerElem.offsetWidth;
     let h = tickerElem.offsetHeight;
     // tickerElem.style.minWidth = ( w  + 20 )+ 'px';
-    tickerElem.style.minHeight =  h + 'px';
-    // console.log( x, w );
+    tickerElem.style.minHeight = h + 'px';
     const move = () => {
         x -= 10;
-        if ( x < -1 * w ){
+        if (x < -1 * w) {
             x = window.innerWidth;
         }
-        // console.log('x:', x);
         tickerElem.style.left = x + "px";
     };
     return {
         start: () => {
-            intv = setInterval( move, 150);
+            intv = setInterval(move, 150);
         },
         stop: () => {
-            clearInterval( intv );
+            clearInterval(intv);
         }
     }
 }
 
 const startTicker = tickerAnim();
 startTicker.start();
-// controller.initGame( params );
 
