@@ -10,7 +10,6 @@ export default class Init {
     }
 
     init() {
-        console.log('Please, remember to allow Chrome to play sounds:');
         if (!isValidInput(this.params)) {
             console.error('ERROR! Invalid input data:', this.params);
             // TODO: back to the Welcome Page

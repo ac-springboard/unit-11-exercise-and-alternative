@@ -52,8 +52,6 @@ export class Play {
         this.colsArr[positions.positionInRowCol.col] = symbol;
         this.downArr[positions.positionInDiagonal.down] = symbol;
         this.upArr[positions.positionInDiagonal.up] = symbol;
-        console.log(this.colsArr.join(''));
-        console.log(this.upArr.join(''));
         const winner = this.isWinner(player.winnerString());
         if (winner) {
             return true;
