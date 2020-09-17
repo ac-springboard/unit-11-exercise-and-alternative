@@ -5,7 +5,7 @@ const nl = 5;
 const nc = 6;
 const mp           = new Map();
 
-const ctnr = document.getElementById('container');
+const ctnr = document.getElementById('play_board');
 
 function createLineDiv(idx ){
   const dv = document.createElement('div');

@@ -7,13 +7,8 @@
             type="module"></script>
     <script src="welcome.js"
             type="module"></script>
-    <link href="connect-them.css"
+    <link href="css/main.css"
           rel="stylesheet">
-    <!--    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cabin+Sketch&display=swap"-->
-    <!--          rel="stylesheet">-->
-    <style type="text/css">
-
-    </style>
 </head>
 <body>
 <div id="main">
@@ -33,20 +28,21 @@
         </div>
         <div class="input_row">
             <div class="params_label glow">Segment Size</div>
-            <input class="params_input glow" id="n_winner" max=9 min=3 type="number" value="8"/>
+            <input class="params_input glow" id="n_winner" max=9 min=3 type="number" value="3"/>
         </div>
-    <div class="error center" id="error"></div>
+        <div class="error hcenter" id="error"></div>
     </div>
-    <div id="play" style="display: none">
+    <div id="play_room" style="display: none">
         <!--    <div id="playing">-->
-        <div class="glow" id="player"></div>
-        <div id="container">
+        <div class="glow" id="player_panel"></div>
+        <div id="play_board">
             <div id="chips"></div>
             <div id="board"></div>
         </div>
     </div>
+<div class="glow" id="start_over" style="display: none;">Start Over</div>
 </div>
-<div class="glow" id="go">GO!</div>
+<div class="glow hcenter" id="go">GO!</div>
 <!--<script src="scratch.js" ></script >-->
 </body>
 </html>

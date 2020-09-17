@@ -46,7 +46,7 @@ export class Play {
   }
 
   update(player, cellId) {
-    console.log('player:', player, 'cellId:', cellId);
+    console.log('player_panel:', player, 'cellId:', cellId);
     const positions                                 = this.cellMap.get(cellId);
     const symbol                                    = player.symbol();
     this.rowsArr[positions.positionInRowCol.row]    = symbol;
@@ -68,9 +68,9 @@ export class Play {
 
   // checkForWinner(){
   //   let winner;
-  //   for( let player of this.players ){
-  //     if ( searchArrays( player.winnerString() ) ){
-  //       winner = player;
+  //   for( let player_panel of this.players ){
+  //     if ( searchArrays( player_panel.winnerString() ) ){
+  //       winner = player_panel;
   //       break;
   //     }
   //   }

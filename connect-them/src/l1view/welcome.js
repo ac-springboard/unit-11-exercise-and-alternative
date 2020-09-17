@@ -15,11 +15,8 @@ import {isValidInput, setSound} from "../utils.js";
 const change = setSound('../../assets/sounds/borg-1.mp3');
 change.playbackRate = 4.0;
 const fail = setSound('../../assets/sounds/fail.mp3');
-fail.volume = 0.5;
-const ambienceAudio = setSound('../../assets/sounds/ambience.wav', true);
-ambienceAudio.play();
 // TODO: Set default volume in a config file
-ambienceAudio.volume = 0.5;
+fail.volume = 0.5;
 
 // TODO: Get these data from Mapper (?)
 const getParams = () => {
@@ -34,7 +31,7 @@ const getParams = () => {
 const error = document.getElementById("error");
 const go = document.getElementById("go");
 const welcome = document.getElementById('welcome');
-const play = document.getElementById("play");
+const play_room = document.getElementById("play_room");
 const main = document.getElementById("main");
 
 // const params =
@@ -58,7 +55,7 @@ go.addEventListener('click', (e) => {
         welcome.style.display = 'none';
         go.style.display = 'none';
         main.style.display = 'inherit';
-        play.style.display = 'inline-block';
+        play_room.style.display = 'inline-block';
         new Controller().initGame(params);
     }
 });

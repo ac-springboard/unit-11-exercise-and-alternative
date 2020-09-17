@@ -1,23 +1,30 @@
 'use strict';
 
 import {Play} from '../l3model/play.js';
-import {invertColor, playSoundsNTimes, playSoundNTimes, setSound, validRowCol } from '../utils.js';
+import {playSoundNTimes, setSound, validRowCol} from '../utils.js';
 
 // TODO: Create a separate class for the mapping of rows, cols, and diagonals. It can be an independent object.
 export class Mapper {
     constructor(params) {
         this.params = params;
+
         this.cellMap = new Map();
         this.lastPosition = {rowCol: 0, up: 0, down: 0};
         this.chipCellCounter = new Array(params.numberOfCols);
         this.chipCellCounter.fill(params.numberOfRows - 1);
         //
-        this.playElement=document.getElementById("play");
+        this.welcomeElem=document.getElementById("welcome");
+        this.playRoomElem = document.getElementById("play_room");
+        this.startOverElem = document.getElementById("start_over");
+        this.startOverElem.addEventListener('click', this.startOver('click') ); // The parenthesis are intentional
+        this.startOverElem.addEventListener('keyup', this.startOver('keyup') ); // The parenthesis are intentional
         this.chipsElem = document.getElementById('chips');
         this.boardElem = document.getElementById('board');
-        this.playerElem = document.getElementById('player');
-        console.log("playElement", this.playElement);
-        this.playElement.removeAttribute("style");
+        this.playerElem = document.getElementById('player_panel');
+        this.goElem = document.getElementById("go");
+        console.log("goElem", this.goElem );
+        // console.log("playElement", this.playElement);
+        this.playRoomElem.removeAttribute("style");
         this.init();
     }
 
@@ -34,7 +41,10 @@ export class Mapper {
         this.doneAudio = setSound('../../assets/sounds/done.wav');
         this.winnerAudio = setSound('../../assets/sounds/winner.wav');
         this.otherAudio = setSound('../../assets/sounds/borg-1.mp3');
-        console.log('before');
+        const ambienceAudio = setSound('../../assets/sounds/ambience.wav', true);
+        ambienceAudio.play();
+        ambienceAudio.volume = 0.5;
+        this.startOverElem.style.display = 'block';
         // TODO: Create an independent object to treat the sounds. Make is reusable by other applications.
         // playSoundNTimes(this.winnerAudio, 2);
         /*
@@ -52,7 +62,7 @@ export class Mapper {
         //
         //     })
         //     .then( pl(this.winnerAudio) );
-        console.log('after');
+        // console.log('after');
         // this.mapPlayers();
         // console.log('MAP', this.cellMap);
     }
@@ -316,12 +326,12 @@ export class Mapper {
 
     winner() {
         this.playerElem.innerHTML = "WINNER <br />" + this.play.getActivePlayer().name();
-        this.playerElem.classList.add('winner');
+        this.playerElem.classList.add('winner', 'pulse', 'glow');
         // _this.disableChipCells();
         // TODO: Set default volume in a config file
         this.winnerAudio.volume = 0.3;
         playSoundNTimes(this.winnerAudio, 3);
-        console.log('loop:', this.winnerAudio.loop);
+        // console.log('loop:', this.winnerAudio.loop);
         // TODO: Highlight the winner cells
         // this.winnerAudio.play();
     }
@@ -332,6 +342,44 @@ export class Mapper {
 
     enableChipCells() {
         document.querySelectorAll('.chipCell').forEach((cell) => cell.removeAttribute('disabled'));
+    }
+
+    /*
+     Testing a closure technique
+     */
+    startOver( e ) {
+        const _this = this;
+        const so = this.startOverElem;
+        const w = this.welcomeElem;
+        const pr = this.playRoomElem;
+        const go = this.goElem;
+        let click = 0;
+        return ( e ) => {
+            console.log( 'evt', e );
+            if (++click === 1) {
+                so.innerText = 'Start Over?';
+                so.classList.add( 'highlight','shake' );
+                // const rect = _this.playRoomElem.getBoundingClientRect();
+                // console.log( rect );
+                setTimeout( () => {
+                    so.innerText='Start Over';
+                    click = 0;
+                    so.classList.remove('shake', 'highlight');
+                }, 3000 );
+
+            } else {
+                console.log( 'Starting over!');
+                so.style.display='none';
+                pr.style.display='none';
+                _this.chipsElem.innerHTML = '';
+                _this.boardElem.innerHTML = '';
+                w.style.display='flex';
+                _this.goElem.style.display='block';
+                // pr.innerHTML='';
+
+
+            }
+        }
     }
 
 }
