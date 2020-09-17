@@ -1,6 +1,6 @@
 'use strict';
 
-// TODO: Make this a class
+// TODO: This should be a class!
 
 import {Controller} from '../l2controller/controller.js';
 import {isValidInput, setSound} from "../utils.js";
@@ -19,6 +19,8 @@ const fail = setSound('../../assets/sounds/fail.mp3');
 fail.volume = 0.5;
 
 // TODO: Get these data from Mapper (?)
+// TODO: Play against the computer
+
 const getParams = () => {
     return {
         numberOfPlayers: Number(document.getElementById("n_players").value),
@@ -60,6 +62,34 @@ go.addEventListener('click', (e) => {
     }
 });
 
+function tickerAnim(){
+    const tickerElem = document.getElementById("ticker");
+    let intv;
+    let x = tickerElem.getBoundingClientRect().x;
+    let w = tickerElem.offsetWidth;
+    let h = tickerElem.offsetHeight;
+    // tickerElem.style.minWidth = ( w  + 20 )+ 'px';
+    tickerElem.style.minHeight =  h + 'px';
+    // console.log( x, w );
+    const move = () => {
+        x -= 10;
+        if ( x < -1 * w ){
+            x = window.innerWidth;
+        }
+        // console.log('x:', x);
+        tickerElem.style.left = x + "px";
+    };
+    return {
+        start: () => {
+            intv = setInterval( move, 150);
+        },
+        stop: () => {
+            clearInterval( intv );
+        }
+    }
+}
 
+const startTicker = tickerAnim();
+startTicker.start();
 // controller.initGame( params );
 

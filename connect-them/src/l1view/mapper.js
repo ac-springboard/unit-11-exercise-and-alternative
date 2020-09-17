@@ -4,6 +4,8 @@ import {Play} from '../l3model/play.js';
 import {playSoundNTimes, setSound, validRowCol} from '../utils.js';
 
 // TODO: Create a separate class for the mapping of rows, cols, and diagonals. It can be an independent object.
+// TODO: Place the player's names in separate positions on the screen
+
 export class Mapper {
     constructor(params) {
         this.params = params;
@@ -13,18 +15,19 @@ export class Mapper {
         this.chipCellCounter = new Array(params.numberOfCols);
         this.chipCellCounter.fill(params.numberOfRows - 1);
         //
-        this.welcomeElem=document.getElementById("welcome");
+        this.welcomeElem = document.getElementById("welcome");
         this.playRoomElem = document.getElementById("play_room");
         this.startOverElem = document.getElementById("start_over");
-        this.startOverElem.addEventListener('click', this.startOver('click') ); // The parenthesis are intentional
-        this.startOverElem.addEventListener('keyup', this.startOver('keyup') ); // The parenthesis are intentional
+        this.startOverElem.addEventListener('click', this.startOver('click')); // The parenthesis are intentional
+        this.startOverElem.addEventListener('keyup', this.startOver('keyup')); // The parenthesis are intentional
         this.chipsElem = document.getElementById('chips');
         this.boardElem = document.getElementById('board');
         this.playerElem = document.getElementById('player_panel');
         this.goElem = document.getElementById("go");
-        console.log("goElem", this.goElem );
+        console.log("goElem", this.goElem);
         // console.log("playElement", this.playElement);
         this.playRoomElem.removeAttribute("style");
+        this.availableChipCells = params.numberOfCols;
         this.init();
     }
 
@@ -37,16 +40,19 @@ export class Mapper {
         this.play = new Play(this.params.numberOfPlayers, this.params.winnerLineLength, this.cellMap, this.lastPosition);
         this.setPlayer();
         //
+        // TODO: The sounds could be obtained from the (future) Class that treat the sounds.
         this.chipAudio = setSound('../../assets/sounds/chip.wav');
         this.doneAudio = setSound('../../assets/sounds/done.wav');
         this.winnerAudio = setSound('../../assets/sounds/winner.wav');
-        this.otherAudio = setSound('../../assets/sounds/borg-1.mp3');
+        // this.otherAudio = setSound('../../assets/sounds/borg-1.mp3');
+        this.startOverAudio = setSound('../../assets/sounds/start-over.wav');
         const ambienceAudio = setSound('../../assets/sounds/ambience.wav', true);
         ambienceAudio.play();
         ambienceAudio.volume = 0.5;
         this.startOverElem.style.display = 'block';
         // TODO: Create an independent object to treat the sounds. Make is reusable by other applications.
         // playSoundNTimes(this.winnerAudio, 2);
+        // this.tickerAnim();
         /*
         const soundList = [
             {sound: this.chipAudio, times: 5},
@@ -312,6 +318,11 @@ export class Mapper {
                     _this.chipCellCounter[col]--;
                     if (_this.chipCellCounter[col] < 0) {
                         document.getElementById('chipcell_' + col).setAttribute('style', 'visibility: hidden');
+                        if ( --_this.availableChipCells === 0 ){
+                            console.log( "TIE!");
+                            _this.tie();
+                            return;
+                        }
                     }
                     _this.enableChipCells();
                 } else {
@@ -322,6 +333,14 @@ export class Mapper {
 
             }
         };
+    }
+
+    tie() {
+        this.playerElem.innerHTML = "TIE";
+        this.playerElem.classList.add('pulse');
+        const fail = setSound('../../assets/sounds/fail.mp3');
+        fail.volume = 0.5;
+        fail.play();
     }
 
     winner() {
@@ -347,39 +366,41 @@ export class Mapper {
     /*
      Testing a closure technique
      */
-    startOver( e ) {
+    startOver(e) {
         const _this = this;
         const so = this.startOverElem;
         const w = this.welcomeElem;
         const pr = this.playRoomElem;
-        const go = this.goElem;
+        // const go = this.goElem;
         let click = 0;
-        return ( e ) => {
-            console.log( 'evt', e );
+        return (e) => {
+            console.log('evt', e);
             if (++click === 1) {
                 so.innerText = 'Start Over?';
-                so.classList.add( 'highlight','shake' );
+                so.classList.add('highlight', 'shake');
+                _this.startOverAudio.play();
                 // const rect = _this.playRoomElem.getBoundingClientRect();
                 // console.log( rect );
-                setTimeout( () => {
-                    so.innerText='Start Over';
+                setTimeout(() => {
+                    so.innerText = 'Start Over';
                     click = 0;
                     so.classList.remove('shake', 'highlight');
-                }, 3000 );
+                    this.startOverAudio.pause();
+                }, 3000);
 
             } else {
-                console.log( 'Starting over!');
-                so.style.display='none';
-                pr.style.display='none';
+                console.log('Starting over!');
+                this.startOverAudio.pause();
+                so.style.display = 'none';
+                pr.style.display = 'none';
                 _this.chipsElem.innerHTML = '';
                 _this.boardElem.innerHTML = '';
-                w.style.display='flex';
-                _this.goElem.style.display='block';
+                w.style.display = 'flex';
+                _this.playerElem.classList.remove( 'pulse', 'winner');
+                _this.goElem.style.display = 'block';
+
                 // pr.innerHTML='';
-
-
             }
         }
     }
-
 }

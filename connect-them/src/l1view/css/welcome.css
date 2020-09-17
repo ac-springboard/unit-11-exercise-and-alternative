@@ -110,3 +110,12 @@ input[type=number] {
     cursor: e-resize;
 }
 
+#ticker {
+    font-size: 1.0vw;
+    font-style: italic;
+    color: #555555;
+    position: fixed;
+    bottom: 0;
+    min-width: 100%;
+}
+
