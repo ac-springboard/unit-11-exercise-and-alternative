@@ -21,7 +21,7 @@ function makeBoard() {
     board[i] = new Array( WIDTH );
     board[i].fill(null);
   }
-  console.log( 'test/board:', board );
+  // console.log( 'test/board:', board );
 }
 
 /** makeHtmlBoard: make HTML table and row of column tops. */
@@ -43,7 +43,7 @@ function makeHtmlBoard() {
     /* ... create a 'td' element (table column)... */
     const headCell = document.createElement("td");
     /* ... set the index (variable 'x' in the 'for' loop as its id ... */
-    headCell.setAttribute("id", x);
+    headCell.setAttribute("id", x); /* (My customization) */
     /* ... add the newly created 'td' element to the 'column-top' of the table created before... */
     top.append(headCell);
   }
@@ -73,7 +73,12 @@ function makeHtmlBoard() {
 
 function findSpotForCol(x) {
   // TODO: write the real version of this, rather than always returning 0
-  return 0;
+  for ( let i = HEIGHT - 1; i >= 0; i-- ){
+    if ( board[i][x] === null ){
+      return i;
+    }
+  }
+  return null;
 }
 
 /** placeInTable: update DOM to place piece into HTML table of board */
