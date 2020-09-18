@@ -152,13 +152,21 @@ function checkForWin() {
 
   // TODO: read and understand this code. Add comments to help you.
 
-  for (var y = 0; y < HEIGHT; y++) {
-    for (var x = 0; x < WIDTH; x++) {
-      var horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
-      var vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
-      var diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
-      var diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
-
+  for (let y = 0; y < HEIGHT; y++) {
+    /* Given the row 'y'... */
+    for (let x = 0; x < WIDTH; x++) {
+      /* ... and the col 'x'... */
+      /* ... get the 4 horizontal coordinates starting at (x, y) ... */
+      let horiz = [[y, x], [y, x + 1], [y, x + 2], [y, x + 3]];
+      /* ... get the 4 vertical coordinates starting at (x, y)... */
+      let vert = [[y, x], [y + 1, x], [y + 2, x], [y + 3, x]];
+      /* ... get the 4 diagonal coordinates to the right ('\') starting at (x, y)... */
+      let diagDR = [[y, x], [y + 1, x + 1], [y + 2, x + 2], [y + 3, x + 3]];
+      /* ... get the 4 diagonal coordinates to the left ('/') starting at (x, y) */
+      let diagDL = [[y, x], [y + 1, x - 1], [y + 2, x - 2], [y + 3, x - 3]];
+      /* If any of the above is valid in the HEIGHT x WIDTH domain AND
+         is filled with the same player, then this player is the winner.
+       */
       if (_win(horiz) || _win(vert) || _win(diagDR) || _win(diagDL)) {
         return true;
       }
