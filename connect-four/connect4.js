@@ -79,6 +79,10 @@ function findSpotForCol(x) {
 
 function placeInTable(y, x) {
   // TODO: make a div and insert into correct table cell
+  const piece = document.createElement('div');
+  piece.classList.add('piece', 'p'+currPlayer );
+  const correctTd = document.getElementById(`${y}-${x}` );
+  correctTd.append( piece );
 }
 
 /** endGame: announce game end */
@@ -91,17 +95,18 @@ function endGame(msg) {
 
 function handleClick(evt) {
   // get x from ID of clicked cell
-  var x = +evt.target.id;
+  let x = +evt.target.id;
 
   // get next spot in column (if none, ignore click)
-  var y = findSpotForCol(x);
-  if (y === null) {
+  let y = findSpotForCol(x);
+  if ( y === null ) {
     return;
   }
 
   // place piece in board and add to HTML table
   // TODO: add line to update in-memory board
   placeInTable(y, x);
+  board[y][x] = null;
 
   // check for win
   if (checkForWin()) {
