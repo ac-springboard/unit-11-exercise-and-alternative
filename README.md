@@ -111,7 +111,7 @@ $ http-server -o src/l1view/connect-them.html
 
 ### Enjoy! ###
 
-***Constructive comments and feedbacks are very welcome! In case of issues, please use the project's `Issues` tab, if possible.***
+***Constructive comments and feedbacks are very welcome! In case of issues, please use the project's [Issues](/issues) tab, if possible.***
  
 ### Thank you! ###
 
