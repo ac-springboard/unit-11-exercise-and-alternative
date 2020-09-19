@@ -25,3 +25,6 @@ $ cd connect-four
 $ http-server -o index.html
 ```
 
+This is the screenshot of the **Connect Four**:
+
+![Connect Four](/screenshots/connect-four.png)
