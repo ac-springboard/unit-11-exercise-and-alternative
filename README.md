@@ -2,7 +2,7 @@
 
 This repository contains two projects named **Connect Four** and **ConnecThem!**, respectively, as the result of the Unit 11 of the **Software Engineering Career Track course**, at **[Springboard.com](springboard.com)**, from a pre-existing code.
 
-Both projects were developed in the following dev environment:
+Both projects were developed in the following dev environment: 
 
 * Intellij-IDEA 2020.2;
 * Ubuntu 20.04 (focal);
@@ -29,12 +29,14 @@ This is the screenshot of the **Connect Four**:
 
 ![Connect Four](/screenshots/connect-four.png)
 
-### ConnecThem! ###
+
+### ConnecThem!(ALPHA version) ###
 
 * This project is an attempt to create a Connect4 game from scratch, from its rules.
+* The main difference between this project and the origintal Connect Four **only in terms of rules** is that the four main input data for the game here (number of players, number of rows, number of cols, and length of the winner segment) are configurable by the user.
 * There are two main objectives to be achieved during its development:
-  1. Practice and identify how an actual game development would be developed in the real-world;\
-  2. Use this development as a laboratory to learn and test program techniques, advanced features (eg, Classes, Closures, Animations), etc.
+  1. Practice and identify how an actual game development would be developed in the real-world;
+  2. Use this development as a laboratory to learn and test programming techniques, advanced features (eg, Classes, Closures, Animations), etc.
 * As consequences of the above, some parts of the code can be inconsistent others, some optimizations should be done, and so on.
 * For example, the current project's **TODO List** includes:
 ```
