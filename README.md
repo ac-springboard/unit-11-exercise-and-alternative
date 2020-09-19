@@ -92,7 +92,7 @@ Found Occurrences  (32 usages found)
                     19 // TODO: HOW IS THIS VAR USED?
 
 ```
-* Before running it, we recommend enabling sounds for the urls `http://localhost` and `http://127.0.0.1` on your browser, for a better experience.
+* Before running it, **we strongly recommend enabling sounds for the urls `http://localhost` and `http://127.0.0.1` on your browser**, for a better experience.
 * To run the project the following commands can be used:
 
 ```
@@ -105,14 +105,14 @@ $ http-server -o src/l1view/connect-them.html
 ![ConnecThem! Welcome!](/screenshots/connect-them-welcome.png)
 
 * The arrow keys can be used to change the default values.
-* By clicking on the **Go!** button the "play room' is shown and the game is ready to start:
+* By clicking on the **Go!** button the **Play Room** is shown and the game is ready to start:
 
 ![ConnecThem! Play-Room](/screenshots/connect-them-playing.png)
 
 ### Enjoy! ###
 
-######_Constructive comments and feedbacks are very welcome! In case of issues, please use the project's `Issues` tab, if possible._######
+***Constructive comments and feedbacks are very welcome! In case of issues, please use the project's `Issues` tab, if possible.***
  
-### Thank yoy! ###
+### Thank you! ###
 
 
